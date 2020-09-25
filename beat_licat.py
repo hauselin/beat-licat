@@ -17,14 +17,6 @@ payload = {
     "DNT": 1,
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:81.0) Gecko/20100101 Firefox/81.0",
 }
-spoiler_txt = "SPOILER ALERT: "
-
-
-def write_to_clipboard(output):
-    process = subprocess.Popen(
-        "pbcopy", env={"LANG": "en_US.UTF-8"}, stdin=subprocess.PIPE
-    )
-    process.communicate(output.encode("utf-8"))
 
 
 def notify(title, text, url):
@@ -40,14 +32,21 @@ def check_page(url):
     return new
 
 
+def write_to_clipboard(output):
+    process = subprocess.Popen(
+        "pbcopy", env={"LANG": "en_US.UTF-8"}, stdin=subprocess.PIPE
+    )
+    process.communicate(output.encode("utf-8"))
+
+
 def compare_old_new(old, new):
-    if old != new:
+    if old != new:  # if new release
         webbrowser.open(discord_url, new=1)
         notify("New Obsidian release!", "Quick! BEAT LICAT!", github_url)
         v = new["title"]
-        write_to_clipboard(
-            f"SPOILER ALERT: @Licat will release Obsidian {v} in a few seconds... ausius-Licat scoreboard: 3-2 \U0001F923\U0001F923"
-        )
+        # copy text to clipboard
+        spoiler_txt = f"SPOILER ALERT: @Licat will release Obsidian {v} in a few seconds... ausius-Licat scoreboard: 3-2 \U0001F923\U0001F923"
+        write_to_clipboard(spoiler_txt)
         return new, False  # break loop
     else:
         print("No new release yet.")
