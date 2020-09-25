@@ -62,7 +62,7 @@ def start_checking():
         print(f"Checking for Obisidian release (scrape {i})...")
         new, status = compare_old_new(old, check_page(github_url))
         if status:
-            time.sleep(random.randint(5, 20))
+            time.sleep(random.randint(3, 10))
 
 
 start_checking()
